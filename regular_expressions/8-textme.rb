@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
+#puts ARGV[0].scan(/\[([^S|A|B|F||u\]]+?)\]/).join(", ").scan(/<([^>]*)>/).last.first
+str = ARGV[0].scan(/\[([^\]([TFSu])]*)\]/).join(", ")
+str.split(/\w+:(.*), to:(.*), flags:(.*)/)
+puts str
 
-SENDER = ARGV[0].scan(/;SENDER:(.*?)\]/)
-RECEIVER = ARGV[0].scan(/RECEIVER:(.*?)\]/)
-FLAGS = ARGV[0].scan(/FLAGS:(.*?)\]/)
-puts [SENDER, RECEIVER, FLAGS].join(',')
