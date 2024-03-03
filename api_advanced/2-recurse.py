@@ -1,24 +1,28 @@
 #!/usr/bin/python3
-"""
-wallah bch naawed nekhdmo
-"""
-
-
+""" This module uses recursion to get hot articles"""
 import requests
 
 
 def recurse(subreddit, hot_list=[], after=None):
-    url = "https://api.reddit.com/r/{}/hot?after={}".format(subreddit, after)
-    headers = {
-            'user-agent': 'my custom user agent 1.0'
-    }
-    response = requests.get(url, headers=headers)
-    data = response.json().get('data')
-    if data is None:
-        return None
-    hot_list += data.get('children', [])
-    after = data.get('after', None)
-    if after:
-        return recurse(subreddit, hot_list, after)
+    BASE_URL = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
+    headers = {'User-Agent': 'Didas Junior'}
+    params = {'after': after}
+    response = requests.get(BASE_URL, headers=headers,
+                            params=params,
+                            allow_redirects=False)
+    if response.status_code == 200:
+        data = response.json().get('data')
+        if data is not None:
+            children = data.get('children')
+            if children is not None:
+                for child in children:
+                    hot_list.append(child.get('data').get('title'))
+                after = data.get('after')
+                if after is not None:
+                    return recurse(subreddit, hot_list, after)
+                else:
+                    return hot_list
+        else:
+            return hot_list
     else:
-        return hot_list
+        return None
