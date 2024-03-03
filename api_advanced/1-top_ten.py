@@ -4,7 +4,11 @@ from sys import argv
 
 
 def top_ten(subreddit):
-    """subs"""
+    """
+
+subs
+
+"""
     head = {'User-Agent': 'Dan Kazam'}
     try:
         count = get('https://www.reddit.com/r/{}/hot.json?count=10'.format(
